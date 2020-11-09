@@ -30,16 +30,17 @@ line and proceeds as indicated above.
 
 This simulation is set up to illustrate how odds work.  One
 pass bet is made and followed through until a win/loss. 
+
+Simulation assumes a 1-unit bet on the pass line for each play
     
 Here's how it works: 
 Begin with 'bankPlay' units.  Play through bankPlay, then stop.
-That is, every play you either lose. If you lose, bets go to
-the house; if you win, total winnings go to the 'bankSave.'  
+That is, every play you either win orlose. If you lose, bets 
+go to the house; if you win, total winnings go to 'bankSave.'  
 Continue play until you have exhausted the bankPlay, then
-\ see how you did by looking at units in bankSave
+see how you did by looking at units in bankSave
  
-This simulation assumes 3,4,5 odds.  That is if the 
- point is:
+This simulation assumes 3,4,5 odds.  That is if the point is:
  
  4 or 10: bettor can play 3x the pass bet 'behind the line' for 
  an odds bet. Odds on 4 or 10 pay 2:1.  This is because there
@@ -84,15 +85,15 @@ That is if the
  
  4 or 10: bettor can play 6x don't pass bet 'behind the line' for 
  an odds bet. Odds on 4 or 10 pay 1:2. Payoff is 1:2 that is,
- 3 bet units if the shooter does not pass.  
+ payoff is 3 for 6 bet units if the shooter does not pass.  
  
  5 or 9: bettor can play 6x times the don't pass bet 'behind the
  line' for an odds bet.  If the shooter does not pass, payoff
- is 2:3. 
+ is 2:3. Payoff is 4 for 6 bet units
  
  6 or 8: bettor can play 6x times the don't pass bet 'behind the 
  line' for an odds bet.  Odds on 6 or 8 pay If the shooter does 
- not pass pay off is 5:6 
+ not pass pay off is 5:6.  Payoff is 5 for 6
 
 1:2 payout for point numbers of 4 and 10
 2:3 for points of 5 and 9 
@@ -103,12 +104,12 @@ That is if the
      2. if pass/don't pass wins/loses, update banks,
         go to step 1
      3. if point, play odds behind the bet. If there are
-        fewer than 3 points in play, make a come or don't come
-        bet, take odds.
+        fewer than 3 points in play, make a Come or Don't Come
+        bet, take/lay odds.
      4. if Come/Don't Come bet wins/loses, update the banks
         go to step 3
      5. if new point, dealer moves Come/Don't Come bet to
-           number, play odds, go to step 2
+           number, play odds, go to step 2.
      6. When 3 numbers are in play no more Come/Don't Come bets
      7. As a point is resolved, make a Pass/Come  or 
         Don't Pass/Don't Come bet to keep 3 numbers in play
@@ -155,7 +156,6 @@ def FirstRoll():
 def play(point, totalWagered):
     '''
        point is the point (4,5,6,8,9,or 10)
-       bank is how much $$ the bettor still has
        totalWagered is $$ at risk on the table
     '''
 
@@ -186,20 +186,18 @@ def play(point, totalWagered):
                 
 bankSave = []
 
-# simulate the craps game 500 times
-# each time start with a bank (say 150), and play until
-# bank is exhausted.  Save the result of each simulation
-# and get a histogram of final amount of $$
+# simulate the craps game
+# start with a bank (say 150), and play until
+# bankPlay is exhausted.  Save the result of each play
+# and get the final amount in bankSave
 
-startBank = 150
-bankPlay = startBank
-bankSave = 0
+startBank = 150  # units to start 
+bankPlay = startBank  # play until exhausted
+bankSave = 0 # what you keep
 
 while (bankPlay>5):  # play until bank exhausted
     
-    while (True):
-        
-        # roll until game resolved
+    while (True):  # roll until game resolved
        
         result = FirstRoll()    
         
